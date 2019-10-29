@@ -63,4 +63,71 @@ defmodule Timesheets.UsersTest do
       assert %Ecto.Changeset{} = Users.change_worker(worker)
     end
   end
+
+  describe "managers" do
+    alias Timesheets.Users.Manager
+
+    @valid_attrs %{email: "some email", name: "some name", password: "some password", password_confirmation: "some password_confirmation", password_hash: "some password_hash"}
+    @update_attrs %{email: "some updated email", name: "some updated name", password: "some updated password", password_confirmation: "some updated password_confirmation", password_hash: "some updated password_hash"}
+    @invalid_attrs %{email: nil, name: nil, password: nil, password_confirmation: nil, password_hash: nil}
+
+    def manager_fixture(attrs \\ %{}) do
+      {:ok, manager} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Users.create_manager()
+
+      manager
+    end
+
+    test "list_managers/0 returns all managers" do
+      manager = manager_fixture()
+      assert Users.list_managers() == [manager]
+    end
+
+    test "get_manager!/1 returns the manager with given id" do
+      manager = manager_fixture()
+      assert Users.get_manager!(manager.id) == manager
+    end
+
+    test "create_manager/1 with valid data creates a manager" do
+      assert {:ok, %Manager{} = manager} = Users.create_manager(@valid_attrs)
+      assert manager.email == "some email"
+      assert manager.name == "some name"
+      assert manager.password == "some password"
+      assert manager.password_confirmation == "some password_confirmation"
+      assert manager.password_hash == "some password_hash"
+    end
+
+    test "create_manager/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Users.create_manager(@invalid_attrs)
+    end
+
+    test "update_manager/2 with valid data updates the manager" do
+      manager = manager_fixture()
+      assert {:ok, %Manager{} = manager} = Users.update_manager(manager, @update_attrs)
+      assert manager.email == "some updated email"
+      assert manager.name == "some updated name"
+      assert manager.password == "some updated password"
+      assert manager.password_confirmation == "some updated password_confirmation"
+      assert manager.password_hash == "some updated password_hash"
+    end
+
+    test "update_manager/2 with invalid data returns error changeset" do
+      manager = manager_fixture()
+      assert {:error, %Ecto.Changeset{}} = Users.update_manager(manager, @invalid_attrs)
+      assert manager == Users.get_manager!(manager.id)
+    end
+
+    test "delete_manager/1 deletes the manager" do
+      manager = manager_fixture()
+      assert {:ok, %Manager{}} = Users.delete_manager(manager)
+      assert_raise Ecto.NoResultsError, fn -> Users.get_manager!(manager.id) end
+    end
+
+    test "change_manager/1 returns a manager changeset" do
+      manager = manager_fixture()
+      assert %Ecto.Changeset{} = Users.change_manager(manager)
+    end
+  end
 end

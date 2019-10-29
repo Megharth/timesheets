@@ -5,7 +5,7 @@ defmodule TimesheetsWeb.Plugs.FetchCurrentUser do
 
   def call(conn, _args) do
     user = Timesheets.Users.get_user(get_session(conn, :user_id) || -1, get_session(conn, :user_type) || -1)
-    # IO.inspect get_session(conn, :user_type)
+    IO.inspect user
     if user do
       assign(conn, :current_user, user)
     else

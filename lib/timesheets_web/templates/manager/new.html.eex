@@ -1,0 +1,5 @@
+<h1 align="center">New Manager</h1>
+
+<div class="login-form">
+    <%= render "form.html", Map.put(assigns, :action, Routes.manager_path(@conn, :create)) %>
+</div>

@@ -7,6 +7,8 @@ defmodule TimesheetsWeb.PageController do
       user_type = get_session(conn, :user_type)
       if user_type === "worker" do
         conn |> redirect(to: Routes.worker_path(conn, :show, user))
+      else
+        conn |> redirect(to: Routes.manager_path(conn, :show, user))
       end
     else
       conn |> redirect(to: Routes.session_path(conn, :new))

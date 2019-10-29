@@ -1,0 +1,34 @@
+<h1>Listing Managers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Password hash</th>
+      <th>Password</th>
+      <th>Password confirmation</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for manager <- @managers do %>
+    <tr>
+      <td><%= manager.email %></td>
+      <td><%= manager.name %></td>
+      <td><%= manager.password_hash %></td>
+      <td><%= manager.password %></td>
+      <td><%= manager.password_confirmation %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.manager_path(@conn, :show, manager) %></span>
+        <span><%= link "Edit", to: Routes.manager_path(@conn, :edit, manager) %></span>
+        <span><%= link "Delete", to: Routes.manager_path(@conn, :delete, manager), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Manager", to: Routes.manager_path(@conn, :new) %></span>
