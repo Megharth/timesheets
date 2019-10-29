@@ -1,0 +1,16 @@
+<div class="container">
+  <h1><%= @worker.name %></h1>
+  <table class="table table-responsive">
+    <thead>
+      <th>Job ID</th>
+      <th>Job Name</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Hours</th>
+    </thead>
+    <tbody>
+
+    </tbody>
+
+  </table>
+</div>

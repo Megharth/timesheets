@@ -1,0 +1,5 @@
+<h1 align="center">New Worker</h1>
+
+<div class="login-form">
+    <%= render "form.html", Map.put(assigns, :action, Routes.worker_path(@conn, :create)) %>
+</div>

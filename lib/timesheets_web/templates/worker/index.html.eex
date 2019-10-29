@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>Workers</h1>
+
+  <table class="table table-responsives">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for worker <- @workers do %>
+          <tr>
+            <td><%= worker.email %></td>
+            <td><%= worker.name %></td>
+            <td>
+              <span><%= link "Show", to: Routes.worker_path(@conn, :show, worker) %></span> |
+              <span><%= link "Delete", to: Routes.worker_path(@conn, :delete, worker), method: :delete, data: [confirm: "Are you sure?"] %></span>
+            </td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
