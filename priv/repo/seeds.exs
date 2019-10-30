@@ -11,7 +11,9 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Timesheets.Repo
-alias Timesheets.Users.Worker
+alias Timesheets.Users.Manager
 
-Repo.insert!(%Worker{name: "Alice", email: "alice@example.com", password: "helloworld", password_confirmation: "helloworld"})
-Repo.insert!(%Worker{name: "Bob", email: "bob@example.com", password: "helloworld", password_confirmation: "helloworld"})
+pw = Argon2.hash_pwd_salt("helloworld")
+
+Repo.insert!(%Manager{name: "Alice", email: "alice@example.com", password_hash: pw})
+Repo.insert!(%Manager{name: "Bob", email: "bob@example.com", password_hash: pw})

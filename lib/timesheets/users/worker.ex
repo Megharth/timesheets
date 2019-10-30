@@ -8,18 +8,21 @@ defmodule Timesheets.Users.Worker do
     field :name, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
+    field :pay, :string
 
+    belongs_to :manager, Timesheets.Users.Manager
     timestamps()
+
   end
 
   @doc false
   def changeset(worker, attrs) do
     worker
-    |> cast(attrs, [:email, :name, :password, :password_confirmation])
+    |> cast(attrs, [:email, :name, :password, :password_confirmation, :manager_id, :pay])
     |> validate_confirmation(:password)
     |> validate_length(:password, min: 8)
     |> hash_password()
-    |> validate_required([:email, :name, :password_hash])
+    |> validate_required([:email, :name, :password_hash, :manager_id, :pay])
   end
 
   def hash_password(cset) do

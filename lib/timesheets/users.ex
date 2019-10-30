@@ -35,7 +35,16 @@ defmodule Timesheets.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_worker!(id), do: Repo.get!(Worker, id)
+  def get_worker!(id) do
+    Repo.one! from w in Worker,
+      where: w.id == ^id
+  end
+
+  def get_worker_with_manager!(id) do
+    Repo.one! from w in Worker,
+      where: w.id == ^id,
+      preload: [:manager]
+  end
 
   @doc """
   Creates a worker.
@@ -53,24 +62,6 @@ defmodule Timesheets.Users do
     %Worker{}
     |> Worker.changeset(attrs)
     |> Repo.insert()
-  end
-
-  @doc """
-  Updates a worker.
-
-  ## Examples
-
-      iex> update_worker(worker, %{field: new_value})
-      {:ok, %Worker{}}
-
-      iex> update_worker(worker, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_worker(%Worker{} = worker, attrs) do
-    worker
-    |> Worker.changeset(attrs)
-    |> Repo.update()
   end
 
   @doc """
@@ -133,6 +124,12 @@ defmodule Timesheets.Users do
   """
   def get_manager!(id), do: Repo.get!(Manager, id)
 
+  def get_manager_with_workers!(id) do
+    Repo.one from m in Manager,
+      where: m.id == ^id,
+      preload: [:workers]
+  end
+
   @doc """
   Creates a manager.
 
@@ -149,24 +146,6 @@ defmodule Timesheets.Users do
     %Manager{}
     |> Manager.changeset(attrs)
     |> Repo.insert()
-  end
-
-  @doc """
-  Updates a manager.
-
-  ## Examples
-
-      iex> update_manager(manager, %{field: new_value})
-      {:ok, %Manager{}}
-
-      iex> update_manager(manager, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_manager(%Manager{} = manager, attrs) do
-    manager
-    |> Manager.changeset(attrs)
-    |> Repo.update()
   end
 
   @doc """

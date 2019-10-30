@@ -24,4 +24,12 @@ input.form-control, input.form-control:focus{
 .container {
     margin-top: 40px;
 }
+
+.nav-link {
+    display: inline;
+}
+
+li.nav-item {
+    display: inline-block;
+}
 @import './index.scss';

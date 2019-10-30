@@ -9,26 +9,61 @@
   </head>
   <body>
     <div id="app">
-      <nav class="navbar navbar-dark bg-dark">
-        <span class="navbar-brand mb-0 h1">Timesheets</span>
-        <div class="col-4 text-light">
-          <%= if @current_user do %>
-            User: <%= @current_user.name %>
-            (<%= link("Logout", to: Routes.session_path(@conn, :delete),
-              method: :delete) %>)
-            <%= link "Home", to: Routes.worker_path(@conn, :index) %>
-            
-          <% else %>
-            <%= link("Login", to: Routes.session_path(@conn, :new)) %>
-          <% end %>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Timesheets</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <%= if @current_user do %>
+              <li class="nav-item">
+                <%= link "Home", to: Routes.page_path(@conn, :index), class: "nav-link" %>
+              </li>
+              <%= if @current_user.user_type === "manager" do %>
+                <li class="nav-item">
+                  <%= link "Create Worker", to: Routes.worker_path(@conn, :new), class: "nav-link" %>
+                </li>
+                <li class="nav-item">
+                  <%= link "Jobs", to: Routes.job_path(@conn, :index), class: "nav-link" %>
+                </li>
+              <% end %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <%= @current_user.details.name %>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <%= link("Logout", to: Routes.session_path(@conn, :delete),
+                    method: :delete, class: "dropdown-item") %>
+                </div>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link("Login", to: Routes.session_path(@conn, :new), class: "nav-link") %>
+              </li>
+              <li class="nav-item">
+                <%= link("Signup", to: Routes.manager_path(@conn, :new), class: "nav-link") %>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </nav>
       <div class="container">
         <%= if get_flash(@conn, :info) do %>
-          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <%= get_flash(@conn, :info) %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
         <% end %>
         <%= if get_flash(@conn, :error) do %>
-          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= get_flash(@conn, :error) %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>  
+          </div>
         <% end %>
       </div>
 

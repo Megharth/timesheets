@@ -1,4 +1,5 @@
 <div class="container">
+  <h1 align="center">Login</h1>
   <div class="login-form">
     <%= form_for @conn, Routes.session_path(@conn, :create), fn f -> %>
       <div class="form-group">

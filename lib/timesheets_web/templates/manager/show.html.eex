@@ -1,33 +1,25 @@
-<h1>Show Manager</h1>
+<div class="container">
+  <h1><%= @manager.name %></h1>
+  <h6><%= @manager.email %></h6>
+  
+  <h4>Workers under you: </h4>
+  <table class="table">
+    <thead>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Pay</th>
+      <th>Timesheets</th>
+      <th>Delete</th>
+    </thead>
+    <%= for worker <- @manager.workers do %>
+      <tr>
+        <td><%= worker.name %></td>
+        <td><%= worker.email %></td>
+        <td><%= worker.pay %></td>
+        <td>Show Timesheets</td>
+        <td><%= link "Delete", to: Routes.worker_path(@conn, :delete, worker), method: :delete, data: [confirm: "Are you sure?"] %></td>
+      </tr> 
+    <% end %>
+  </table>
 
-<ul>
-
-  <li>
-    <strong>Email:</strong>
-    <%= @manager.email %>
-  </li>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @manager.name %>
-  </li>
-
-  <li>
-    <strong>Password hash:</strong>
-    <%= @manager.password_hash %>
-  </li>
-
-  <li>
-    <strong>Password:</strong>
-    <%= @manager.password %>
-  </li>
-
-  <li>
-    <strong>Password confirmation:</strong>
-    <%= @manager.password_confirmation %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.manager_path(@conn, :edit, @manager) %></span>
-<span><%= link "Back", to: Routes.manager_path(@conn, :index) %></span>
+</div>

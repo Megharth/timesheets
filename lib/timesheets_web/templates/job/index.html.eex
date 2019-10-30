@@ -1,0 +1,24 @@
+<div class="container">
+    <h1 align="center">Jobs</h1>
+    <table class="table">
+        <thead>
+            <th>Job Code</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Budget</th>
+            <th>Manager</th>
+        </thead>
+        <tbody>
+            <%= for job <- @jobs do %>
+                <tr>
+                    <td><%= job.jobCode %></td>
+                    <td><%= job.name %></td>
+                    <td><%= job.description %></td>
+                    <td>$<%= job.budget %></td>
+                    <td><%= job.manager.name %></td>                
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <%= link "Create a job", to: Routes.job_path(@conn, :new), class: "btn btn-primary ml-auto"%>
+</div>
