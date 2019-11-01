@@ -26,6 +26,6 @@
     <%= text_input f, :pay, placeholder: "Pay per Hour", class: "form-control"%>
   </div>
   <div>
-    <%= submit "Create", class: "btn btn-primary mx-auto d-block"%>
+    <%= submit "Submit", class: "btn btn-primary mx-auto d-block"%>
   </div>
 <% end %>

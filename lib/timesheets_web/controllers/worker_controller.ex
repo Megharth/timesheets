@@ -17,13 +17,20 @@ defmodule TimesheetsWeb.WorkerController do
   def create(conn, %{"worker" => worker_params}) do
     user = get_session(conn, :user_type)
     if user === "manager" do
-      worker_params = Map.put(worker_params, "manager_id", conn.assigns[:current_user].details.id)
-      IO.inspect worker_params
-      case Users.create_worker(worker_params) do
-        {:ok, _worker} ->
-          conn
-          |> put_flash(:info, "Worker created successfully.")
-          |> redirect(to: Routes.page_path(conn, :index))
+      userExists = Users.get_user_by_email(worker_params["email"])
+      if !userExists do
+        worker_params = Map.put(worker_params, "manager_id",
+        conn.assigns[:current_user].details.id)
+        case Users.create_worker(worker_params) do
+          {:ok, _worker} ->
+            conn
+            |> put_flash(:info, "Worker created successfully.")
+            |> redirect(to: Routes.page_path(conn, :index))
+        end
+      else
+        conn
+        |> put_flash(:error, "User with the same email already exists")
+        |> redirect(to: Routes.worker_path(conn, :new))
       end
     else
       conn |> redirect(to: Routes.page_path(conn, :index))
@@ -31,9 +38,9 @@ defmodule TimesheetsWeb.WorkerController do
   end
 
   def show(conn, %{"id" => id}) do
-    worker = Users.get_worker_with_manager!(id)
-    IO.inspect worker
-    render(conn, "show.html", worker: worker)
+    worker = Users.get_worker_with_everything!(id)
+    render(conn, "show.html", worker: worker,
+      user_type: get_session(conn, :user_type))
   end
 
   def delete(conn, %{"id" => id}) do

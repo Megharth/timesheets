@@ -1,0 +1,57 @@
+<%= form_for @changeset, Routes.sheet_path(@conn, :update, @sheet), fn f -> %>
+
+<div class="container">
+  <h1>Timesheet</h1>
+  <h6>Date: <%= @sheet.date%></h6>
+  <h6>Status: <%= if @sheet.approved == true do %> Approved <% else %> Not Approved <% end %> </h6>
+  <%= if @sheet.approved == false do %>
+    <%= if @user_type == "manager" do %>
+      <%= submit "Approve", class: "btn btn-primary", id: "approve-btn" %>
+      <%= checkbox f, :approved, checked: true, hidden: true %>
+    <% end %>
+  <% end %>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Job Code</td>
+        <td>Hours</td>
+      <tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @sheet.job_0 %></td>
+        <td><%= @sheet.hour_0 %></td>
+      </tr>
+      <tr>
+        <td><%= @sheet.job_1 %></td>
+        <td><%= @sheet.hour_1 %></td>
+      </tr>
+      <tr>
+        <td><%= @sheet.job_2 %></td>
+        <td><%= @sheet.hour_2 %></td>
+      </tr>
+      <tr>
+        <td><%= @sheet.job_3 %></td>
+        <td><%= @sheet.hour_3 %></td>
+      </tr>
+      <tr>
+        <td><%= @sheet.job_4 %></td>
+        <td><%= @sheet.hour_4 %></td>
+      </tr>
+      <tr>
+        <td><%= @sheet.job_5 %></td>
+        <td><%= @sheet.hour_5 %></td>
+      </tr>
+      <tr>
+        <td><%= @sheet.job_6 %></td>
+        <td><%= @sheet.hour_6 %></td>
+      </tr>
+      <tr>
+        <td><%= @sheet.job_7 %></td>
+        <td><%= @sheet.hour_7 %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<% end %>

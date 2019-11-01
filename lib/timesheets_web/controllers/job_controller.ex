@@ -40,24 +40,4 @@ defmodule TimesheetsWeb.JobController do
       conn |> redirect(to: Routes.page_path(conn, :index))
     end
   end
-
-  def show(conn, %{"id" => id}) do
-    job = Jobs.get_job_with_manager!(id)
-    IO.inspect job
-    render(conn, "show.html", job: job)
-  end
-
-  def delete(conn, %{"id" => id}) do
-    user = get_session(conn, :user_type)
-    if user === "manager" do
-      job = Jobs.get_job_with_manager!(id)
-      {:ok, _job} = Jobs.delete_job(job)
-      conn
-      |> put_flash(:info, "job deleted successfully.")
-      |> redirect(to: Routes.page_path(conn, :index))
-    else
-      conn
-      |> put_flash(:error, "Invalid operation.")
-    end
-  end
 end

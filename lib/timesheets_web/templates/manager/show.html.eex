@@ -15,8 +15,8 @@
       <tr>
         <td><%= worker.name %></td>
         <td><%= worker.email %></td>
-        <td><%= worker.pay %></td>
-        <td>Show Timesheets</td>
+        <td>$<%= worker.pay %>/hr</td>
+        <td><%= link "Show Timesheets", to: Routes.worker_path(@conn, :show, worker) %></td>
         <td><%= link "Delete", to: Routes.worker_path(@conn, :delete, worker), method: :delete, data: [confirm: "Are you sure?"] %></td>
       </tr> 
     <% end %>

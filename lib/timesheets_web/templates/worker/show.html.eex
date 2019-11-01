@@ -1,17 +1,27 @@
 <div class="container">
   <h1><%= @worker.name %></h1>
-  <h3><%= @worker.manager.name %></h3>
-  <table class="table table-responsive">
+  <h5>Manager: <%= @worker.manager.name %></h5>
+
+  <h4>Your Timesheets</h4>
+  <table class="table">
     <thead>
-      <th>Job ID</th>
-      <th>Job Name</th>
-      <th>From</th>
-      <th>To</th>
-      <th>Hours</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Show</th>
     </thead>
     <tbody>
-
+      <%= for sheet <- @worker.sheets do %>
+          <tr>
+            <td><%= sheet.date %>
+            <td><%= if sheet.approved == true do %>Approved <% else %> Not Approved <% end %></td>
+            <td>
+              <span><%= link "Show", to: Routes.sheet_path(@conn, :show, sheet) %></span>
+            </td>
+          </tr>
+      <% end %>
     </tbody>
-
   </table>
+  <%= if @user_type == "worker" do %>
+  <%= link "New Sheet", to: Routes.sheet_path(@conn, :new), class: "btn btn-primary" %>
+  <% end %>
 </div>

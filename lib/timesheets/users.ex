@@ -46,6 +46,12 @@ defmodule Timesheets.Users do
       preload: [:manager]
   end
 
+  def get_worker_with_everything!(id) do
+    Repo.one! from w in Worker,
+    where: w.id == ^id,
+    preload: [:sheets, :manager]
+  end
+
   @doc """
   Creates a worker.
 
@@ -92,6 +98,21 @@ defmodule Timesheets.Users do
   def change_worker(%Worker{} = worker) do
     Worker.changeset(worker, %{})
   end
+
+  @doc """
+  Updates a worker.
+  ## Examples
+      iex> update_worker(worker, %{field: new_value})
+      {:ok, %Worker{}}
+      iex> update_worker(worker, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_worker(%Worker{} = worker, attrs) do
+    worker
+    |> Worker.changeset(attrs)
+    |> Repo.update()
+  end
+
 
   alias Timesheets.Users.Manager
 
@@ -182,6 +203,18 @@ defmodule Timesheets.Users do
       Repo.get(Worker, id)
     else
       Repo.get(Manager, id)
+    end
+  end
+
+  def get_user_by_email(email) do
+    workers = Repo.all from w in Worker,
+                where: w.email == ^email
+    managers = Repo.all from m in Manager,
+                where: m.email == ^email
+    if length(workers) > 0 or length(managers) > 0 do
+      true
+    else
+      false
     end
   end
 

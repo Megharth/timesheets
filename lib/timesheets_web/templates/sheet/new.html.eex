@@ -1,0 +1,5 @@
+<div class="container">
+    <h1>New Sheet</h1>
+
+    <%= render "form.html", Map.put(assigns, :action, Routes.sheet_path(@conn, :create)) %>
+</div>

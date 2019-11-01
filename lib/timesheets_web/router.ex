@@ -20,7 +20,7 @@ defmodule TimesheetsWeb.Router do
     get "/", PageController, :index
 
     resources "/workers", WorkerController,
-      only: [:create, :show, :delete, :index, :new]
+      only: [:new, :create, :delete, :show]
 
     resources "/sessions", SessionController,
       only: [:new, :create, :delete], singleton: true
@@ -29,7 +29,10 @@ defmodule TimesheetsWeb.Router do
       only: [:show, :create, :new]
 
     resources "/jobs", JobController,
-      only: [:index, :show, :create, :new]
+      only: [:index, :create, :new]
+
+    resources "/timesheets", SheetController,
+      only: [:new, :create, :show, :update]
   end
 
   # Other scopes may use custom stacks.

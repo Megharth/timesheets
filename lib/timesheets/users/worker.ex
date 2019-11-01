@@ -11,6 +11,7 @@ defmodule Timesheets.Users.Worker do
     field :pay, :string
 
     belongs_to :manager, Timesheets.Users.Manager
+    has_many :sheets, Timesheets.Sheets.Sheet
     timestamps()
 
   end
@@ -18,7 +19,8 @@ defmodule Timesheets.Users.Worker do
   @doc false
   def changeset(worker, attrs) do
     worker
-    |> cast(attrs, [:email, :name, :password, :password_confirmation, :manager_id, :pay])
+    |> cast(attrs, [:email, :name, :password, :password_confirmation,
+      :manager_id, :pay])
     |> validate_confirmation(:password)
     |> validate_length(:password, min: 8)
     |> hash_password()

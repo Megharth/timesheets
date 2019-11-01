@@ -7,7 +7,7 @@ defmodule Timesheets.Repo.Migrations.CreateJobsTable do
       add :name, :string
       add :manager_id, references(:managers)
       add :budget, :int
-      add :description, :string
+      add :description, :text
 
       timestamps()
     end
